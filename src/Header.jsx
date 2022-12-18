@@ -28,9 +28,9 @@ export function Header() {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#product-new">
+                <Link class="nav-link" to="/products/new">
                   New Product
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
                 <Link className="nav-link" to="/signup">

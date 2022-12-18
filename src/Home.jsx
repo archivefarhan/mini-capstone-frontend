@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { ProductIndex } from "./ProductIndex";
-import { ProductNew } from "./ProductNew";
 import { ProductsShow } from "./ProductsShow";
 import { Modal } from "./Modal";
 
@@ -16,18 +15,6 @@ export function Home() {
       console.log(response.data);
       setProducts(response.data);
     });
-  };
-
-  const handleCreateProduct = (params) => {
-    console.log("handleCreateProduct", params);
-    axios
-      .post("http://localhost:3000/products.json", params)
-      .then((response) => {
-        setProducts([...products, response.data]);
-      })
-      .catch((error) => {
-        console.log(error.response.data.errors);
-      });
   };
 
   const handleShowProduct = (product) => {
@@ -70,7 +57,6 @@ export function Home() {
   return (
     <div className="container">
       <h1 className="mt-4 text-center">Mini Capstone</h1>
-      <ProductNew onCreateProduct={handleCreateProduct} />
       <ProductIndex products={products} onShowProduct={handleShowProduct} />
       <Modal show={isProductsShowVisible} onClose={handleClose}>
         {" "}

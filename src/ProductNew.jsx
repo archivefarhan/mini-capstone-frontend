@@ -1,15 +1,38 @@
-export function ProductNew(props) {
+import axios from "axios";
+import { useState } from "react";
+
+export function ProductNew() {
+  const [errors, setErrors] = useState([]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const params = new FormData(event.target);
-    props.onCreateProduct(params);
+    handleCreateProduct(params);
     event.target.reset();
   };
+
+  const handleCreateProduct = (params) => {
+    axios
+      .post("http://localhost:3000/products.json", params)
+      .then((response) => {
+        window.location.href = "/";
+      })
+      .catch((error) => {
+        console.log(error.response.data.errors);
+        setErrors(error.response.data.errors);
+      });
+  };
+
   return (
     <div className="container-fluid">
       <h1 className="mt-3" id="product-new">
         New Product
       </h1>
+      <ul>
+        {errors.map((error) => (
+          <li key={error}>{error}</li>
+        ))}
+      </ul>
       <form onSubmit={handleSubmit}>
         <label htmlFor="Name">Product Name: </label>
         <input className="form-control" type="text" name="name" placeholder="Name" id="name" />
