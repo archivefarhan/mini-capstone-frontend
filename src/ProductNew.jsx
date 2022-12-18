@@ -4,22 +4,16 @@ import { useState } from "react";
 export function ProductNew() {
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (event) => {
+  const handleCreateProduct = (event) => {
     event.preventDefault();
     const params = new FormData(event.target);
-    handleCreateProduct(params);
-    event.target.reset();
-  };
-
-  const handleCreateProduct = (params) => {
     axios
       .post("http://localhost:3000/products.json", params)
       .then((response) => {
         window.location.href = "/";
       })
       .catch((error) => {
-        console.log(error.response.data.errors);
-        setErrors(error.response.data.errors);
+        setErrors(error.response.data.errors ? error.response.data.errors : ["Must Login!"]);
       });
   };
 
@@ -33,7 +27,7 @@ export function ProductNew() {
           <li key={error}>{error}</li>
         ))}
       </ul>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleCreateProduct}>
         <label htmlFor="Name">Product Name: </label>
         <input className="form-control" type="text" name="name" placeholder="Name" id="name" />
         <br />

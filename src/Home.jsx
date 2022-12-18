@@ -6,6 +6,7 @@ import { Modal } from "./Modal";
 
 export function Home() {
   const [products, setProducts] = useState([]);
+  const [images, setImages] = useState([]);
   const [isProductsShowVisible, setIsProductsShowVisible] = useState(false);
   const [currentProduct, setCurrentProduct] = useState({});
 
@@ -14,6 +15,14 @@ export function Home() {
     axios.get("http://localhost:3000/products.json").then((response) => {
       console.log(response.data);
       setProducts(response.data);
+    });
+  };
+
+  const handleIndexImages = () => {
+    console.log("handleIndexImages");
+    axios.get("http://localhost:3000/images.json").then((response2) => {
+      console.log(response2.data);
+      setImages(response2.data);
     });
   };
 
@@ -53,11 +62,12 @@ export function Home() {
   };
 
   useEffect(handleIndexProducts, []);
+  useEffect(handleIndexImages, []);
 
   return (
     <div className="container">
       <h1 className="mt-4 text-center">Mini Capstone</h1>
-      <ProductIndex products={products} onShowProduct={handleShowProduct} />
+      <ProductIndex products={products} images={images} onShowProduct={handleShowProduct} />
       <Modal show={isProductsShowVisible} onClose={handleClose}>
         {" "}
         <ProductsShow
